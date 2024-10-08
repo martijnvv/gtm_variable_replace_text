@@ -1,5 +1,5 @@
 homepage: "https://www.martijnvanvreeden.nl"
 documentation: "https://github.com/martijnvv/gtm_variable_replace_text"
 versions:
-  - sha: 94203a99fb539a0b931afa231f4f28c6517698fa
+  - sha: 94203a99fb539a0b931afa231f4f28c6517698fa1
     changeNotes: Initial release.
