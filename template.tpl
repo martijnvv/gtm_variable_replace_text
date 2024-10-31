@@ -59,6 +59,11 @@ const findInput = data.input;       // Substring to find
 const replaceInput = data.output; // Substring to replace
 const trimSpaces = data.trimSpaces;
 
+// Return undefined if the input string is undefined, null, or empty
+if (stringInput == null || stringInput.trim() === '') {
+  return undefined;
+}
+
 // Function to replace all occurrences of a substring
 function replaceAllOccurrences(str, find, replace, trim) {
   let result = str;
@@ -103,6 +108,6 @@ scenarios: []
 
 ___NOTES___
 
-Created on 8-10-2024 15:44:01
+Created on 31-10-2024 10:47:43
 
 
