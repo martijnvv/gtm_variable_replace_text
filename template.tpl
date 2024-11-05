@@ -14,7 +14,7 @@ ___INFO___
   "version": 1,
   "securityGroups": [],
   "displayName": "Text Replace",
-  "description": "This variable allows you to replace one string with another and trim any spaces around this substring",
+  "description": "This variable allows you to replace one string with another, trim any spaces around this substring and / or lowercase the string",
   "containerContexts": [
     "WEB"
   ]
@@ -31,37 +31,74 @@ ___TEMPLATE_PARAMETERS___
     "simpleValueType": true
   },
   {
-    "type": "TEXT",
-    "name": "input",
-    "displayName": "characters to replace",
-    "simpleValueType": true
+    "type": "GROUP",
+    "name": "1. Replace characters",
+    "displayName": "1. Replace characters",
+    "groupStyle": "ZIPPY_CLOSED",
+    "subParams": [
+      {
+        "type": "TEXT",
+        "name": "input",
+        "displayName": "Characters to replace",
+        "simpleValueType": true,
+        "help": "This is the character or group of characters to replace"
+      },
+      {
+        "type": "TEXT",
+        "name": "output",
+        "displayName": "Characters to add",
+        "simpleValueType": true
+      }
+    ]
   },
   {
-    "type": "TEXT",
-    "name": "output",
-    "displayName": "Characters to add",
-    "simpleValueType": true
+    "type": "GROUP",
+    "name": "2. Trim spaces",
+    "displayName": "2. Trim spaces",
+    "groupStyle": "ZIPPY_CLOSED",
+    "subParams": [
+      {
+        "type": "CHECKBOX",
+        "name": "trimSpaces",
+        "checkboxText": "Trim spaces",
+        "simpleValueType": true
+      }
+    ]
   },
   {
-    "type": "CHECKBOX",
-    "name": "trimSpaces",
-    "checkboxText": "Trim spaces",
-    "simpleValueType": true
+    "type": "GROUP",
+    "name": "3. Lowercase the string",
+    "displayName": "3. Lowercase the string",
+    "groupStyle": "ZIPPY_CLOSED",
+    "subParams": [
+      {
+        "type": "CHECKBOX",
+        "name": "makeLowercase",
+        "checkboxText": "Lowercase the input value",
+        "simpleValueType": true
+      }
+    ]
   }
 ]
 
 
 ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
-// GTM Custom JavaScript Template
 const stringInput = data.var;   // Input string
 const findInput = data.input;       // Substring to find
 const replaceInput = data.output; // Substring to replace
 const trimSpaces = data.trimSpaces;
+const makeLowercase = data.makeLowercase; // New "Convert to Lowercase" checkbox
 
 // Return undefined if the input string is undefined, null, or empty
 if (stringInput == null || stringInput.trim() === '') {
   return undefined;
+}
+
+// Convert input to lowercase if the option is enabled
+let processedString = stringInput;
+if (makeLowercase) {
+  processedString = processedString.toLowerCase();
 }
 
 // Function to replace all occurrences of a substring
@@ -97,8 +134,9 @@ function replaceAllOccurrences(str, find, replace, trim) {
 
   return result;
 }
+
 // Call the function with the provided arguments
-return replaceAllOccurrences(stringInput, findInput, replaceInput, trimSpaces);
+return replaceAllOccurrences(processedString, findInput, replaceInput, trimSpaces);
 
 
 ___TESTS___
@@ -108,6 +146,4 @@ scenarios: []
 
 ___NOTES___
 
-Created on 31-10-2024 10:47:43
-
-
+Created on 5-11-2024 15:27:40
